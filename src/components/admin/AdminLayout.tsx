@@ -11,7 +11,12 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen w-full bg-background">
+    <div className="min-h-screen bg-background flex">
+
+      {/* ================= DESKTOP SIDEBAR (FIXED) ================= */}
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:border-r lg:bg-background lg:z-40">
+        <AdminSidebar />
+      </aside>
 
       {/* ================= MOBILE HEADER ================= */}
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b">
@@ -32,11 +37,6 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         </div>
       </header>
 
-      {/* ================= DESKTOP SIDEBAR ================= */}
-      <aside className="hidden lg:fixed lg:top-0 lg:left-0 lg:h-full lg:w-64 lg:border-r lg:bg-background lg:z-40">
-        <AdminSidebar />
-      </aside>
-
       {/* ================= MOBILE OVERLAY ================= */}
       {mobileOpen && (
         <div
@@ -47,14 +47,14 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
       {/* ================= MOBILE SIDEBAR ================= */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-background z-50 transform transition-transform lg:hidden
+        className={`fixed top-0 left-0 h-full w-64 bg-background z-50 transform transition-transform duration-300 lg:hidden
         ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <AdminSidebar onClose={() => setMobileOpen(false)} />
       </aside>
 
       {/* ================= MAIN CONTENT ================= */}
-      <main className="min-h-screen overflow-y-auto lg:ml-64 pt-16 lg:pt-0">
+      <main className="flex-1 lg:ml-64 pt-16 lg:pt-0 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 py-6">
           {children}
         </div>
