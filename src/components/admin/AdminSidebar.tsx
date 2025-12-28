@@ -13,7 +13,7 @@ import {
   Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/favicon.png"; // ✅ IMPORT LOGO
+import logo from "@/assets/favicon.png";
 
 const navItems = [
   { title: "Overview", url: "/admin", icon: LayoutDashboard },
@@ -32,7 +32,7 @@ const navItems = [
 ];
 
 interface AdminSidebarProps {
-  onClose?: () => void; // used only on mobile
+  onClose?: () => void; // ✅ used only for mobile
 }
 
 export const AdminSidebar = ({ onClose }: AdminSidebarProps) => {
@@ -44,17 +44,17 @@ export const AdminSidebar = ({ onClose }: AdminSidebarProps) => {
   };
 
   return (
-    <aside className="h-screen w-64 bg-background border-r border-border flex flex-col">
+    <aside className="h-full w-64 bg-background border-r border-border flex flex-col">
 
-      {/* ===== ADMIN LOGO HEADER ===== */}
-      <div className="p-4 border-b border-border">
-        <div className="flex items-center gap-2">
+      {/* ===== FIXED HEADER ===== */}
+      <div className="p-4 border-b border-border shrink-0">
+        <div className="flex items-center gap-3">
           <img
             src={logo}
-            alt="NaariCare Admin Logo"
+            alt="NaariCare Admin"
             className="w-9 h-9 object-contain"
           />
-          <div>
+          <div className="leading-tight">
             <h2 className="text-lg font-heading font-bold">
               Naari<span className="text-accent">Care</span>
             </h2>
@@ -65,7 +65,7 @@ export const AdminSidebar = ({ onClose }: AdminSidebarProps) => {
         </div>
       </div>
 
-      {/* ===== NAVIGATION ===== */}
+      {/* ===== SCROLLABLE NAV ===== */}
       <div className="flex-1 overflow-y-auto p-4">
         <nav className="space-y-1">
           {navItems.map((item) => (
@@ -80,12 +80,13 @@ export const AdminSidebar = ({ onClose }: AdminSidebarProps) => {
                   : "text-muted-foreground hover:bg-accent/10 hover:text-foreground"
               )}
             >
-              <item.icon className="w-5 h-5" />
+              <item.icon className="w-5 h-5 shrink-0" />
               <span>{item.title}</span>
             </NavLink>
           ))}
         </nav>
       </div>
+
     </aside>
   );
 };
