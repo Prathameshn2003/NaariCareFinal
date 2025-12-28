@@ -13,7 +13,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <div className="min-h-screen w-full bg-background">
       
       {/* ================= MOBILE HEADER ================= */}
-      <header className="lg:hidden sticky top-0 z-40 bg-background/80 backdrop-blur border-b">
+      <header className="lg:hidden sticky top-0 z-40 bg-background border-b">
         <div className="flex items-center justify-between px-4 py-3">
           
           {/* NaariCare Logo */}
@@ -47,14 +47,14 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         {/* ================= MOBILE OVERLAY ================= */}
         {mobileOpen && (
           <div
-            className="fixed inset-0 bg-black/30 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/40 z-40 lg:hidden"
             onClick={() => setMobileOpen(false)}
           />
         )}
 
         {/* ================= MOBILE SIDEBAR ================= */}
         <aside
-          className={`fixed top-0 left-0 h-full w-64 bg-sidebar-background z-50 transform transition-transform duration-300 lg:hidden
+          className={`fixed top-0 left-0 h-full w-64 bg-background z-[999] transform transition-transform duration-300 lg:hidden
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <DashboardSidebar onClose={() => setMobileOpen(false)} />
