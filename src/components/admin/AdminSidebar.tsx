@@ -9,11 +9,9 @@ import {
   AlertTriangle,
   Flag,
   Wrench,
-  ScrollText,   // ✅ Admin Logs icon
-  Bell
+  ScrollText,
+  Bell,
 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -28,13 +26,15 @@ const navItems = [
   { title: "Feature Flags", url: "/admin/feature-flags", icon: Flag },
   { title: "Diagnostics", url: "/admin/diagnostics", icon: Wrench },
 
-  // ✅ NEW
   { title: "Admin Logs", url: "/admin/logs", icon: ScrollText },
   { title: "Alerts", url: "/admin/alerts", icon: Bell },
 ];
 
-export const AdminSidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface AdminSidebarProps {
+  onClose?: () => void; // used only on mobile
+}
+
+export const AdminSidebar = ({ onClose }: AdminSidebarProps) => {
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -43,46 +43,34 @@ export const AdminSidebar = () => {
   };
 
   return (
-    <>
-      {/* Mobile Toggle */}
-      <Button
-        variant="outline"
-        size="icon"
-        className="fixed bottom-4 right-4 z-50 lg:hidden"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        ☰
-      </Button>
+    <aside className="h-screen w-64 bg-background border-r border-border flex flex-col">
 
-      {/* Sidebar */}
-      <aside
-        className={cn(
-          "fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-card border-r z-40 transition-transform",
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        )}
-      >
-        <div className="p-4">
-          <h2 className="text-lg font-semibold mb-4">Admin Panel</h2>
-          <nav className="space-y-1">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.url}
-                to={item.url}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium",
-                  isActive(item.url)
-                    ? "bg-accent text-accent-foreground"
-                    : "text-muted-foreground hover:bg-muted"
-                )}
-              >
-                <item.icon className="w-5 h-5" />
-                {item.title}
-              </NavLink>
-            ))}
-          </nav>
-        </div>
-      </aside>
-    </>
+      {/* ===== HEADER ===== */}
+      <div className="p-4 border-b border-border">
+        <h2 className="text-lg font-semibold">Admin Panel</h2>
+      </div>
+
+      {/* ===== NAVIGATION ===== */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <nav className="space-y-1">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.url}
+              to={item.url}
+              onClick={onClose}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all",
+                isActive(item.url)
+                  ? "bg-accent/15 text-accent"
+                  : "text-muted-foreground hover:bg-accent/10 hover:text-foreground"
+              )}
+            >
+              <item.icon className="w-5 h-5" />
+              <span>{item.title}</span>
+            </NavLink>
+          ))}
+        </nav>
+      </div>
+    </aside>
   );
 };
