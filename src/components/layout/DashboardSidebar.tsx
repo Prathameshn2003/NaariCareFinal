@@ -2,6 +2,8 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/favicon.png"; // ✅ YOUR LOGO
+
 import {
   LayoutDashboard,
   Droplets,
@@ -18,7 +20,6 @@ import {
   Shield,
   Users,
   BookOpen,
-  Heart,
   ChevronRight,
 } from "lucide-react";
 
@@ -33,10 +34,7 @@ const userNavItems = [
   { title: "Nearby Doctors", path: "/doctors", icon: Stethoscope },
   { title: "NGOs & Support", path: "/ngos", icon: Building2 },
   { title: "Govt. Schemes", path: "/schemes", icon: FileText },
-
-  // ✅ ADDED
   { title: "Health Resources", path: "/health-resources", icon: BookOpen },
-
   { title: "Hygiene & Wellness", path: "/hygiene", icon: Sparkles },
   { title: "AI Chatbot", path: "/chatbot", icon: MessageCircle },
   { title: "My Profile", path: "/profile", icon: User },
@@ -53,7 +51,7 @@ const adminNavItems = [
 ];
 
 interface DashboardSidebarProps {
-  onClose?: () => void; // used only on mobile
+  onClose?: () => void;
 }
 
 export const DashboardSidebar = ({ onClose }: DashboardSidebarProps) => {
@@ -74,22 +72,25 @@ export const DashboardSidebar = ({ onClose }: DashboardSidebarProps) => {
   };
 
   return (
-    <aside className="h-screen w-64 bg-background border-r border-border flex flex-col">
+    <aside className="h-full w-64 bg-background border-r border-border flex flex-col">
 
-      {/* ===== LOGO ===== */}
-      <div className="p-4 border-b border-border">
-        <NavLink to="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <Heart className="w-5 h-5 text-foreground fill-current" />
-          </div>
+      {/* ===== LOGO (FIXED TOP) ===== */}
+      <div className="p-4 border-b border-border shrink-0">
+        <NavLink to="/" className="flex items-center gap-3">
+          <img
+            src={logo}
+            alt="NaariCare Logo"
+            className="w-10 h-10 object-contain"
+          />
           <span className="font-heading font-bold text-lg">
             Naari<span className="text-accent">Care</span>
           </span>
         </NavLink>
       </div>
 
-      {/* ===== NAVIGATION ===== */}
+      {/* ===== SCROLLABLE MENU ===== */}
       <div className="flex-1 overflow-y-auto p-4">
+
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-3">
           Menu
         </p>
@@ -146,8 +147,8 @@ export const DashboardSidebar = ({ onClose }: DashboardSidebarProps) => {
         )}
       </div>
 
-      {/* ===== USER INFO + LOGOUT ===== */}
-      <div className="p-4 border-t border-border">
+      {/* ===== USER FOOTER (FIXED BOTTOM) ===== */}
+      <div className="p-4 border-t border-border shrink-0">
         <div className="flex items-center gap-3 mb-4 px-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
             <User className="w-5 h-5 text-foreground" />
@@ -171,6 +172,7 @@ export const DashboardSidebar = ({ onClose }: DashboardSidebarProps) => {
           Logout
         </Button>
       </div>
+
     </aside>
   );
 };

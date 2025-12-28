@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { Menu } from "lucide-react";
 import { DashboardSidebar } from "./DashboardSidebar";
+import logo from "@/assets/favicon.png";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -10,23 +11,22 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen w-full bg-background">
-      
+    <div className="h-full w-full bg-background">
+
       {/* ================= MOBILE HEADER ================= */}
-      <header className="lg:hidden sticky top-0 z-40 bg-background border-b">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b">
         <div className="flex items-center justify-between px-4 py-3">
-          
-          {/* NaariCare Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              ❤️
-            </div>
+            <img
+              src={logo}
+              alt="NaariCare"
+              className="w-9 h-9 object-contain"
+            />
             <span className="font-heading font-bold text-lg">
               Naari<span className="text-accent">Care</span>
             </span>
           </div>
 
-          {/* Menu Button */}
           <button
             onClick={() => setMobileOpen(true)}
             className="w-10 h-10 rounded-full bg-muted flex items-center justify-center"
@@ -37,36 +37,34 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         </div>
       </header>
 
-      <div className="flex w-full">
-        
-        {/* ================= DESKTOP SIDEBAR ================= */}
-        <aside className="hidden lg:block">
-          <DashboardSidebar />
-        </aside>
+      {/* ================= DESKTOP SIDEBAR (FIXED) ================= */}
+      <aside className="hidden lg:block lg:fixed lg:top-0 lg:left-0 lg:h-full lg:w-64 lg:border-r lg:bg-background lg:z-40">
+        <DashboardSidebar />
+      </aside>
 
-        {/* ================= MOBILE OVERLAY ================= */}
-        {mobileOpen && (
-          <div
-            className="fixed inset-0 bg-black/40 z-40 lg:hidden"
-            onClick={() => setMobileOpen(false)}
-          />
-        )}
+      {/* ================= MOBILE OVERLAY ================= */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
 
-        {/* ================= MOBILE SIDEBAR ================= */}
-        <aside
-          className={`fixed top-0 left-0 h-full w-64 bg-background z-[999] transform transition-transform duration-300 lg:hidden
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
-        >
-          <DashboardSidebar onClose={() => setMobileOpen(false)} />
-        </aside>
+      {/* ================= MOBILE SIDEBAR ================= */}
+      <aside
+        className={`fixed top-0 left-0 h-full w-64 bg-background z-50 transform transition-transform duration-300 lg:hidden
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <DashboardSidebar onClose={() => setMobileOpen(false)} />
+      </aside>
 
-        {/* ================= MAIN CONTENT ================= */}
-        <main className="flex-1 min-h-screen overflow-x-hidden">
-          <div className="container mx-auto px-4 py-6 lg:py-8 max-w-7xl">
-            {children}
-          </div>
-        </main>
-      </div>
+      {/* ================= MAIN CONTENT (ONLY THIS SCROLLS) ================= */}
+      <main className="h-full overflow-y-auto pt-16 lg:pt-0 lg:ml-64">
+        <div className="max-w-7xl mx-auto px-4 py-6 lg:py-8">
+          {children}
+        </div>
+      </main>
+
     </div>
   );
 };

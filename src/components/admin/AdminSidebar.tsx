@@ -13,6 +13,7 @@ import {
   Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/favicon.png"; // ✅ IMPORT LOGO
 
 const navItems = [
   { title: "Overview", url: "/admin", icon: LayoutDashboard },
@@ -45,9 +46,23 @@ export const AdminSidebar = ({ onClose }: AdminSidebarProps) => {
   return (
     <aside className="h-screen w-64 bg-background border-r border-border flex flex-col">
 
-      {/* ===== HEADER ===== */}
+      {/* ===== ADMIN LOGO HEADER ===== */}
       <div className="p-4 border-b border-border">
-        <h2 className="text-lg font-semibold">Admin Panel</h2>
+        <div className="flex items-center gap-2">
+          <img
+            src={logo}
+            alt="NaariCare Admin Logo"
+            className="w-9 h-9 object-contain"
+          />
+          <div>
+            <h2 className="text-lg font-heading font-bold">
+              Naari<span className="text-accent">Care</span>
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              Admin Panel
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* ===== NAVIGATION ===== */}
